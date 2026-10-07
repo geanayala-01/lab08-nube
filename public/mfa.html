@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación MFA · TechStore</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <main class="auth-page">
+    <div class="card auth-card">
+      <div class="brand"><span class="brand-logo">TS</span> TechStore</div>
+      <h1>Verificación en dos pasos</h1>
+
+      <!-- Primera vez: configurar Google Authenticator -->
+      <section id="seccion-configurar" class="hidden">
+        <p class="subtitle">Configura tu autenticador para proteger tu cuenta.</p>
+        <ol class="steps">
+          <li>Abre <b>Google Authenticator</b> (o Microsoft Authenticator / Authy) en tu celular.</li>
+          <li>Toca <b>+</b> → <b>Escanear código QR</b>.</li>
+          <li>Escanea este código e ingresa los 6 dígitos que aparecen.</li>
+        </ol>
+        <div class="qr-box"><img id="qr" alt="Código QR para configurar MFA"></div>
+        <p class="muted">¿No puedes escanear? Ingresa esta clave manualmente:</p>
+        <p class="secret" id="secreto"></p>
+      </section>
+
+      <p class="subtitle" id="texto-verificar">Ingresa el código de 6 dígitos de tu app autenticadora. El código cambia cada 30 segundos.</p>
+
+      <form id="form-mfa" novalidate>
+        <label for="codigo">Código MFA</label>
+        <input id="codigo" class="code-input" inputmode="numeric" pattern="\d{6}" maxlength="6" autocomplete="one-time-code" required>
+        <button type="submit" class="btn-block" id="btn-verificar">Verificar</button>
+      </form>
+
+      <div id="alerta" class="hidden"></div>
+      <a href="/" class="btn btn-outline btn-block hidden" id="btn-volver">Volver a iniciar sesión</a>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/mfa.js"></script>
+</body>
+</html>

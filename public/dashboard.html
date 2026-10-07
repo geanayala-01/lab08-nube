@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel · TechStore</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-logo">TS</span> TechStore</div>
+    <div class="user-info">
+      <span id="usuario-nombre"></span>
+      <span id="usuario-rol" class="badge"></span>
+      <span id="usuario-tienda" class="muted"></span>
+      <button class="btn-outline btn-sm" id="btn-logout">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Tus permisos</h2>
+      <div class="perm-grid" id="permisos"></div>
+      <details style="margin-top:14px">
+        <summary class="muted">Ver contenido del JWT</summary>
+        <pre class="result-log" id="jwt-payload"></pre>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>Inventario de productos</h2>
+      <form id="form-producto" class="form-row hidden" novalidate style="margin-bottom:16px">
+        <div><label for="p-sku">SKU</label><input id="p-sku" required></div>
+        <div><label for="p-nombre">Nombre</label><input id="p-nombre" required></div>
+        <div><label for="p-precio">Precio (S/)</label><input id="p-precio" type="number" step="0.01" min="0" required></div>
+        <div><label for="p-stock">Stock</label><input id="p-stock" type="number" min="0" required></div>
+        <div id="p-tienda-wrap" class="hidden"><label for="p-tienda">Tienda</label><select id="p-tienda"></select></div>
+        <div><button type="submit">Agregar producto</button></div>
+      </form>
+      <div id="alerta-productos" class="hidden"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>SKU</th><th>Producto</th><th>Tienda</th><th>Precio (S/)</th><th>Stock</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-productos"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card hidden" id="seccion-reportes">
+      <h2>Reporte de inventario</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tienda</th><th>Ciudad</th><th>Productos</th><th>Unidades</th><th>Valor (S/)</th><th>Stock bajo (&lt;5)</th></tr></thead>
+          <tbody id="tabla-reportes"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card hidden" id="seccion-usuarios">
+      <h2>Usuarios y roles</h2>
+      <div id="alerta-usuarios" class="hidden"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Email</th><th>Nombre</th><th>Método</th><th>Rol</th><th>Tienda</th><th>MFA</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="tabla-usuarios"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card hidden" id="seccion-auditoria">
+      <h2>Registro de eventos de seguridad</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fecha</th><th>Email</th><th>Acción</th><th>Detalle</th><th>IP</th></tr></thead>
+          <tbody id="tabla-auditoria"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Prueba de permisos (RBAC)</h2>
+      <p class="muted">Estos botones llaman a la API directamente, sin importar tu rol, para comprobar que el <b>servidor</b> bloquea lo que no te corresponde (HTTP 403).</p>
+      <div class="actions" style="flex-wrap:wrap" id="pruebas"></div>
+      <pre class="result-log" id="resultado-pruebas">Presiona un botón para probar…</pre>
+    </section>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

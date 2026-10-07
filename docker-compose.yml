@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: techstore-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-techstore}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-techstore_dev_2026}
+      POSTGRES_DB: ${DB_NAME:-techstore}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Se ejecuta solo la primera vez que se crea el volumen
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-techstore} -d ${DB_NAME:-techstore}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Interfaz web para ver la base de datos (útil para las evidencias)
+  adminer:
+    image: adminer:latest
+    container_name: techstore-adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
